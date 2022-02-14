@@ -58,7 +58,7 @@ def create_ground_truth(dims, variables):
     # convert to strings later
     edges = {}
     for cause in state_variables:
-        edges[cause] = [node for node in state_variables if torch.equal(cause, node) or (torch.eq(cause[1], node[1]) and torch.greater(node[0], cause[0]))]
+        edges[cause] = [node for node in state_variables if torch.equal(cause, node) or (torch.eq(cause[1], node[1]) and torch.gt(node[0], cause[0]))]
     # edges contains the node that is the cause and a list of nodes that are caused by it, but the affected nodes are
     # still in tensor form and so look like state variables
 
