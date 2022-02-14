@@ -141,6 +141,6 @@ SID = cdt.metrics.SID(ground_truth, output)
 precision_recall_area = cdt.metrics.precision_recall(ground_truth, output)[0]
 # cdt.metrics.precision_recall_curve()
 
-print(f'The SHD is {SHD}. The area under the precision recall curve is {precision_recall_area}. Time taken is {duration}s')
+print(f'The SID is {SID}. The SHD is {SHD}. The area under the precision recall curve is {precision_recall_area}. Time taken is {duration}s')
 
 plt.show()
