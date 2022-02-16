@@ -94,8 +94,8 @@ data = pd.read_csv('num_robot_data_state_perception2_2x2_100_samples.csv')
 # print(data)
 
 # Apply the PC algorithm
-obj = PC(CItest='discrete')
-# obj = cdt.causality.graph.GES(score='int')  # Find a way to output the BIC score as well
+# obj = PC(CItest='discrete')
+obj = cdt.causality.graph.GES(score='int')  # Find a way to output the BIC score as well
 # obj = cdt.causality.graph.CGNN()  # Takes too long, over 5 mins, didn't wait until the end
 # obj = cdt.causality.graph.GIES()
 # obj = cdt.causality.graph.CCDr()
