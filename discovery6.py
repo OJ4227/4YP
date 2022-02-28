@@ -95,7 +95,7 @@ data = pd.read_csv('num_robot_data_state_perception2_2x2_100_samples.csv')
 
 # Apply the PC algorithm
 # obj = PC(CItest='discrete')
-obj = cdt.causality.graph.GES(score='int')  # Find a way to output the BIC score as well
+# obj = cdt.causality.graph.GES(score='int')  # Find a way to output the BIC score as well
 # obj = cdt.causality.graph.CGNN()  # Takes too long, over 5 mins, didn't wait until the end
 # obj = cdt.causality.graph.GIES()
 # obj = cdt.causality.graph.CCDr()
@@ -103,7 +103,7 @@ obj = cdt.causality.graph.GES(score='int')  # Find a way to output the BIC score
 # obj = cdt.causality.graph.GS()  # Error! - bnlearn integer issue
 # obj = cdt.causality.graph.bnlearn.MMPC()  # Error! - same as above
 # obj = cdt.causality.graph.bnlearn.Fast_IAMB()  # Error! - same as above
-# obj = cdt.causality.graph.SAMv1() # Error! - long error figure out later
+obj = cdt.causality.graph.SAMv1() # Error! - long error figure out later
 
 
 start = time.time()
