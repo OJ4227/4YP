@@ -13,8 +13,6 @@ from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, average_pre
 from cdt.causality.graph.model import GraphModel
 from cdt.causality.graph.bnlearn import BNlearnAlgorithm
 from pgmpy.estimators.base import StructureEstimator
-from causallearn.search.ConstraintBased.FCI import fci
-from causallearn.utils.cit import gsq
 
 
 def position_nodes(variables):
@@ -228,10 +226,6 @@ for idx, value in enumerate(algorithms):
     elif isinstance(value, StructureEstimator):
         start = time.time()
         output = value.estimate()
-        end = time.time()
-    else:
-        start = time.time()
-        output = fci(data, independence_test_method=gsq)
         end = time.time()
 
 
