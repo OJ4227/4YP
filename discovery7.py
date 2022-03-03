@@ -169,7 +169,7 @@ cdt.SETTINGS.rpath = 'C:/Program Files/R/R-4.1.2/bin/RScript.exe'
 cdt.SETTINGS.GPU = 1
 
 # Load in the data
-data_file = '2x2_100_samples2.csv'
+data_file = '2x2_100_samples1.csv'
 data = pd.read_csv(data_file)
 bn_learn_data = data.replace(to_replace={-1: -1.1, 0: 0.1, 1: 1.1, 2: 2.1, 3: 3.1})
 
@@ -239,7 +239,7 @@ for idx, value in enumerate(algorithms):
     result['Algorithm'] = value
     result['Duration'] = end - start
     result['SHD'] = cdt.metrics.SHD(ground_truth, output)
-    # result['SID'] = cdt.metrics.SID(ground_truth, output)
+    result['SID'] = cdt.metrics.SID(ground_truth, output)
     result['PR AUC'] = cdt.metrics.precision_recall(ground_truth, output)[0]
     # result['PR AUC2'] = calculate_pr_auc(output, ground_truth)
     result['ROC AUC'] = calculate_roc_auc(output, ground_truth)
