@@ -162,7 +162,7 @@ def calculate_pr_auc(predicted_graph, ground_truth):
 
 
 # Let cdt know the path to access R for the necessary R packages
-cdt.SETTINGS.rpath = 'C:/Program Files/R/R-4.1.2/bin/RScript.exe'
+cdt.SETTINGS.rpath = '/usr/bin/Rscript'
 
 cdt.SETTINGS.GPU = 1
 
