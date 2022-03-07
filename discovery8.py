@@ -171,23 +171,23 @@ algorithms = []
 
 # CDT Algorithms
 algorithms.append(PC(CItest='discrete'))
-# algorithms.append(cdt.causality.graph.GES(score='int'))  # Find a way to output the BIC score as well
+algorithms.append(cdt.causality.graph.GES(score='int'))  # Find a way to output the BIC score as well
 # algorithms.append(cdt.causality.graph.CGNN(nruns=1, gpus=1))  # Takes too long, over 5 mins, didn't wait until the end
-# algorithms.append(cdt.causality.graph.GIES())
-# algorithms.append(cdt.causality.graph.CCDr())
+algorithms.append(cdt.causality.graph.GIES())
+algorithms.append(cdt.causality.graph.CCDr())
 # algorithms.append(cdt.causality.graph.LiNGAM())  # Error! - system is computationally singular
 
 # BNLearn Algorithms
-# algorithms.append(cdt.causality.graph.bnlearn.GS())  # Error! - bnlearn integer issue
-# algorithms.append(cdt.causality.graph.bnlearn.MMPC())  # Error! - same as above
-# algorithms.append(cdt.causality.graph.bnlearn.IAMB())
-# algorithms.append(cdt.causality.graph.bnlearn.Fast_IAMB())  # Error! - same as above
-# algorithms.append(cdt.causality.graph.bnlearn.Inter_IAMB())
+algorithms.append(cdt.causality.graph.bnlearn.GS())  # Error! - bnlearn integer issue
+algorithms.append(cdt.causality.graph.bnlearn.MMPC())  # Error! - same as above
+algorithms.append(cdt.causality.graph.bnlearn.IAMB())
+algorithms.append(cdt.causality.graph.bnlearn.Fast_IAMB())  # Error! - same as above
+algorithms.append(cdt.causality.graph.bnlearn.Inter_IAMB())
 # algorithms.append(cdt.causality.graph.SAMv1()) # Error! - long error figure out later, infinite runtime on docker
 
 # PGMPY algorithms
-# algorithms.append(HillClimbSearch(data))
-# algorithms.append(MmhcEstimator(data))  # Takes a long time, worth putting in a max computation time
+algorithms.append(HillClimbSearch(data))
+algorithms.append(MmhcEstimator(data))  # Takes a long time, worth putting in a max computation time
 
 # Can't get the FCI Algorithm to work:(
 
@@ -238,7 +238,7 @@ for num in num_samples:
             result['Algorithm'] = value
             result['Duration'] = end - start
             result['SHD'] = cdt.metrics.SHD(ground_truth, output)
-            # result['SID'] = cdt.metrics.SID(ground_truth, output)
+            result['SID'] = cdt.metrics.SID(ground_truth, output)
             result['PR AUC'] = cdt.metrics.precision_recall(ground_truth, output)[0]
             # result['PR AUC2'] = calculate_pr_auc(output, ground_truth)
             result['ROC AUC'] = calculate_roc_auc(output, ground_truth)
