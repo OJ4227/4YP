@@ -203,7 +203,7 @@ for num in num_samples:
         read_path = os.path.dirname(os.path.abspath(__file__)) + f"/data/{dims[0]}x{dims[1]}/{dims[0]}x{dims[1]}_{num}_samples/" + data_file
 
         data = pd.read_csv(read_path)
-        # bn_learn_data = data.replace(to_replace={-1: -1.1, 0: 0.1, 1: 1.1, 2: 2.1, 3: 3.1})
+        bn_learn_data = data.replace(to_replace={-1: -1.1, 0: 0.1, 1: 1.1, 2: 2.1, 3: 3.1})
 
         # Fix the state variables' positions and the perception variables' starting points
         variables = data.columns
