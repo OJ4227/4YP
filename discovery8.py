@@ -29,7 +29,7 @@ def position_nodes(variables):
     theta = np.linspace(1, -1, len(perception_variables)) * (1 / 5 * np.pi)
     for idx, val in enumerate(perception_variables):
         pos = np.array([y_coords[idx] / np.tan(theta[idx]), y_coords[idx]])
-        pos[np.isnan(pos)] = +1.6
+        pos[np.isnan(pos)] = 1.6
         fixed_nodes[val] = pos
 
     return fixed_nodes
@@ -195,7 +195,7 @@ algorithms.append(cdt.causality.graph.CCDr())
 
 # Apply discovery algorithms
 dims = [2, 2]
-num_samples = [100, 200, 500, 1000, 2000, 5000]
+num_samples = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000]
 for num in num_samples:
     for i in range(1, 11):
         # Load in the data
@@ -203,7 +203,7 @@ for num in num_samples:
         read_path = os.path.dirname(os.path.abspath(__file__)) + f"/data/{dims[0]}x{dims[1]}/{dims[0]}x{dims[1]}_{num}_samples/" + data_file
 
         data = pd.read_csv(read_path)
-        bn_learn_data = data.replace(to_replace={-1: -1.1, 0: 0.1, 1: 1.1, 2: 2.1, 3: 3.1})
+        # bn_learn_data = data.replace(to_replace={-1: -1.1, 0: 0.1, 1: 1.1, 2: 2.1, 3: 3.1})
 
         # Fix the state variables' positions and the perception variables' starting points
         variables = data.columns
