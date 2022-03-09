@@ -197,7 +197,7 @@ algorithms.append(cdt.causality.graph.CCDr())
 list_of_dims = [[3, 3], [4, 4], [2, 4], [4, 2]]
 # dims = [2, 2]
 num_samples = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000]
-for dim in list_of_dims:
+for dims in list_of_dims:
     for num in num_samples:
         for i in range(1, 11):
             # Load in the data
