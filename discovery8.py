@@ -171,7 +171,7 @@ algorithms = []
 
 # CDT Algorithms
 algorithms.append(PC(CItest='discrete'))
-algorithms.append(cdt.causality.graph.GES(score='int'))  # Find a way to output the BIC score as well
+algorithms.append(cdt.causality.graph.GES(score='obs'))  # Find a way to output the BIC score as well
 # algorithms.append(cdt.causality.graph.CGNN(nruns=1, gpus=1))  # Takes too long, over 5 mins, didn't wait until the end
 algorithms.append(cdt.causality.graph.GIES())
 algorithms.append(cdt.causality.graph.CCDr())
