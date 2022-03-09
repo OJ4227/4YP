@@ -23,11 +23,13 @@ def position_nodes(variables):
     y_coords = np.linspace(1, -1, len(state_variables))
     for idx, val in enumerate(state_variables):
         pos = np.array([0, y_coords[idx]])
+        pos[np.isnan(pos)] = -1.6
         fixed_nodes[val] = pos
 
     theta = np.linspace(1, -1, len(perception_variables)) * (1 / 5 * np.pi)
     for idx, val in enumerate(perception_variables):
         pos = np.array([y_coords[idx] / np.tan(theta[idx]), y_coords[idx]])
+        pos[np.isnan(pos)] = 1.6
         fixed_nodes[val] = pos
 
     return fixed_nodes
