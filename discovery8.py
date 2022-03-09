@@ -178,16 +178,16 @@ algorithms.append(cdt.causality.graph.CCDr())
 # algorithms.append(cdt.causality.graph.LiNGAM())  # Error! - system is computationally singular
 
 # BNLearn Algorithms
-algorithms.append(cdt.causality.graph.bnlearn.GS())  # Error! - bnlearn integer issue
-algorithms.append(cdt.causality.graph.bnlearn.MMPC())  # Error! - same as above
-algorithms.append(cdt.causality.graph.bnlearn.IAMB())
-algorithms.append(cdt.causality.graph.bnlearn.Fast_IAMB())  # Error! - same as above
-algorithms.append(cdt.causality.graph.bnlearn.Inter_IAMB())
+# algorithms.append(cdt.causality.graph.bnlearn.GS())  # Error! - bnlearn integer issue
+# algorithms.append(cdt.causality.graph.bnlearn.MMPC())  # Error! - same as above
+# algorithms.append(cdt.causality.graph.bnlearn.IAMB())
+# algorithms.append(cdt.causality.graph.bnlearn.Fast_IAMB())  # Error! - same as above
+# algorithms.append(cdt.causality.graph.bnlearn.Inter_IAMB())
 # algorithms.append(cdt.causality.graph.SAMv1()) # Error! - long error figure out later, infinite runtime on docker
 
 # PGMPY algorithms
-algorithms.append(HillClimbSearch(data))
-algorithms.append(MmhcEstimator(data))  # Takes a long time, worth putting in a max computation time
+# algorithms.append(HillClimbSearch(data))
+# algorithms.append(MmhcEstimator(data))  # Takes a long time, worth putting in a max computation time
 
 # Can't get the FCI Algorithm to work:(
 
