@@ -252,6 +252,7 @@ for num in num_samples:
             results = results.append(result, ignore_index=True)
         write_path = os.path.dirname(os.path.abspath(__file__)) + f'/data/{dims[0]}x{dims[1]}/results_{dims[0]}x{dims[1]}_{num}_samples/'
         results.to_csv(write_path + f'results_' + data_file)
+        print('Completed ' + data_file)
 # fig1, ax1 = plt.subplots()
 # ax1.set_title('PC Algorithm')
 # nx.draw(output, pos=fixed_nodes, with_labels=True)
