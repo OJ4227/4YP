@@ -172,11 +172,11 @@ cdt.SETTINGS.GPU = 1
 algorithms = []
 
 # CDT Algorithms
-algorithms.append(PC(CItest='discrete'))
-# algorithms.append(cdt.causality.graph.GES(score='obs'))  # Find a way to output the BIC score as well
+# algorithms.append(PC(CItest='discrete'))
+algorithms.append(cdt.causality.graph.GES(score='obs'))  # Find a way to output the BIC score as well
 # algorithms.append(cdt.causality.graph.CGNN(nruns=1, gpus=1))  # Takes too long, over 5 mins, didn't wait until the end
 # algorithms.append(cdt.causality.graph.GIES(score='obs'))
-algorithms.append(cdt.causality.graph.CCDr())
+# algorithms.append(cdt.causality.graph.CCDr())
 # algorithms.append(cdt.causality.graph.LiNGAM())  # Error! - system is computationally singular
 
 # BNLearn Algorithms
@@ -253,7 +253,7 @@ for dims in list_of_dims:
 
                 results = results.append(result, ignore_index=True)
             write_path = os.path.dirname(os.path.abspath(__file__)) + f'/data/{dims[0]}x{dims[1]}/results_{dims[0]}x{dims[1]}_{num}_samples/'
-            results.to_csv(write_path + f'py_results_' + data_file)
+            # results.to_csv(write_path + f'py_results_' + data_file)
             print(f'Completed {dims}' + data_file)
 # fig1, ax1 = plt.subplots()
 # ax1.set_title('PC Algorithm')
