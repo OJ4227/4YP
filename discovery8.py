@@ -23,11 +23,13 @@ def position_nodes(variables):
     y_coords = np.linspace(1, -1, len(state_variables))
     for idx, val in enumerate(state_variables):
         pos = np.array([0, y_coords[idx]])
+        pos[np.isnan(pos)] = -1.6
         fixed_nodes[val] = pos
 
     theta = np.linspace(1, -1, len(perception_variables)) * (1 / 5 * np.pi)
     for idx, val in enumerate(perception_variables):
         pos = np.array([y_coords[idx] / np.tan(theta[idx]), y_coords[idx]])
+        pos[np.isnan(pos)] = 1.6
         fixed_nodes[val] = pos
 
     return fixed_nodes
@@ -170,11 +172,11 @@ cdt.SETTINGS.GPU = 1
 algorithms = []
 
 # CDT Algorithms
-algorithms.append(PC(CItest='discrete'))
-algorithms.append(cdt.causality.graph.GES(score='int'))  # Find a way to output the BIC score as well
+# algorithms.append(PC(CItest='discrete'))
+algorithms.append(cdt.causality.graph.GES(score='obs'))  # Find a way to output the BIC score as well
 # algorithms.append(cdt.causality.graph.CGNN(nruns=1, gpus=1))  # Takes too long, over 5 mins, didn't wait until the end
-algorithms.append(cdt.causality.graph.GIES())
-algorithms.append(cdt.causality.graph.CCDr())
+# algorithms.append(cdt.causality.graph.GIES(score='obs'))
+# algorithms.append(cdt.causality.graph.CCDr())
 # algorithms.append(cdt.causality.graph.LiNGAM())  # Error! - system is computationally singular
 
 # BNLearn Algorithms
@@ -192,64 +194,67 @@ algorithms.append(cdt.causality.graph.CCDr())
 # Can't get the FCI Algorithm to work:(
 
 # Apply discovery algorithms
-dims = [2, 2]
-num_samples = [100, 200, 500, 1000, 2000, 5000]
-for num in num_samples:
-    for i in range(1, 11):
-        # Load in the data
-        data_file = f'{dims[0]}x{dims[1]}_{num}_samples{i}.csv'
-        read_path = os.path.dirname(os.path.abspath(__file__)) + f"/data/{dims[0]}x{dims[1]}/{dims[0]}x{dims[1]}_{num}_samples/" + data_file
+list_of_dims = [[3, 3], [4, 4], [2, 4], [4, 2]]
+# dims = [2, 2]
+num_samples = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000]
+for dims in list_of_dims:
+    for num in num_samples:
+        for i in range(1, 11):
+            # Load in the data
+            data_file = f'{dims[0]}x{dims[1]}_{num}_samples{i}.csv'
+            read_path = os.path.dirname(os.path.abspath(__file__)) + f"/data/{dims[0]}x{dims[1]}/{dims[0]}x{dims[1]}_{num}_samples/" + data_file
 
-        data = pd.read_csv(read_path)
-        bn_learn_data = data.replace(to_replace={-1: -1.1, 0: 0.1, 1: 1.1, 2: 2.1, 3: 3.1})
+            data = pd.read_csv(read_path)
+            bn_learn_data = data.replace(to_replace={-1: -1.1, 0: 0.1, 1: 1.1, 2: 2.1, 3: 3.1})
 
-        # Fix the state variables' positions and the perception variables' starting points
-        variables = data.columns
-        fixed_nodes = position_nodes(variables)
+            # Fix the state variables' positions and the perception variables' starting points
+            variables = data.columns
+            fixed_nodes = position_nodes(variables)
 
-        # Generate the ground truth DAG
+            # Generate the ground truth DAG
 
-        ground_truth = create_ground_truth(dims, variables)
+            ground_truth = create_ground_truth(dims, variables)
 
-        # Create the scoring objects
-        bdeu = BDeuScore(data, equivalent_sample_size=5)
-        bic = BicScore(data)
+            # Create the scoring objects
+            bdeu = BDeuScore(data, equivalent_sample_size=5)
+            bic = BicScore(data)
 
-        results = pd.DataFrame()
+            results = pd.DataFrame()
 
-        for idx, value in enumerate(algorithms):
-            result = {}
+            for idx, value in enumerate(algorithms):
+                result = {}
 
-            if isinstance(value, BNlearnAlgorithm):
-                start = time.time()
-                output = value.predict(bn_learn_data)
-                end = time.time()
-            elif isinstance(value, GraphModel):
-                start = time.time()
-                output = value.predict(data)
-                end = time.time()
-            elif isinstance(value, StructureEstimator):
-                start = time.time()
-                output = value.estimate()
-                end = time.time()
+                if isinstance(value, BNlearnAlgorithm):
+                    start = time.time()
+                    output = value.predict(bn_learn_data)
+                    end = time.time()
+                elif isinstance(value, GraphModel):
+                    start = time.time()
+                    output = value.predict(data)
+                    end = time.time()
+                elif isinstance(value, StructureEstimator):
+                    start = time.time()
+                    output = value.estimate()
+                    end = time.time()
 
 
-            # Metrics
-            result['Algorithm'] = value
-            result['Duration'] = end - start
-            result['SHD'] = cdt.metrics.SHD(ground_truth, output)
-            result['SID'] = cdt.metrics.SID(ground_truth, output)
-            result['PR AUC'] = cdt.metrics.precision_recall(ground_truth, output)[0]
-            # result['PR AUC2'] = calculate_pr_auc(output, ground_truth)
-            result['ROC AUC'] = calculate_roc_auc(output, ground_truth)
-            result['F1'] = calculate_f1(output, ground_truth)
-            result['Accuracy'] = calculate_accuracy(output, ground_truth)
-            result['BDeu'] = bdeu.score(output)
-            result['BIC'] = bic.score(output)
+                # Metrics
+                result['Algorithm'] = value
+                result['Duration'] = end - start
+                result['SHD'] = cdt.metrics.SHD(ground_truth, output)
+                result['SID'] = cdt.metrics.SID(ground_truth, output)
+                result['PR AUC'] = cdt.metrics.precision_recall(ground_truth, output)[0]
+                # result['PR AUC2'] = calculate_pr_auc(output, ground_truth)
+                result['ROC AUC'] = calculate_roc_auc(output, ground_truth)
+                result['F1'] = calculate_f1(output, ground_truth)
+                result['Accuracy'] = calculate_accuracy(output, ground_truth)
+                result['BDeu'] = bdeu.score(output)
+                result['BIC'] = bic.score(output)
 
-            results = results.append(result, ignore_index=True)
-        write_path = os.path.dirname(os.path.abspath(__file__)) + f'/data/{dims[0]}x{dims[1]}/results_{dims[0]}x{dims[1]}_{num}_samples/'
-        results.to_csv(write_path + f'results_' + data_file)
+                results = results.append(result, ignore_index=True)
+            write_path = os.path.dirname(os.path.abspath(__file__)) + f'/data/{dims[0]}x{dims[1]}/results_{dims[0]}x{dims[1]}_{num}_samples/'
+            results.to_csv(write_path + f'ges_results_' + data_file)
+            print(f'Completed {dims}' + data_file)
 # fig1, ax1 = plt.subplots()
 # ax1.set_title('PC Algorithm')
 # nx.draw(output, pos=fixed_nodes, with_labels=True)
